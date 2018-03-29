@@ -48,7 +48,7 @@ while ($wmi -ne $null){
 
             #need to sleep long enough for windows to re-connect
             sleep -s 10
-		  Write-Output "reset done. resume checking loop..."
+		  Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t reset done. resume checking loop..."
         }
     }
 
