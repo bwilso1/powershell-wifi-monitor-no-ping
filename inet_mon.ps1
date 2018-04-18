@@ -14,8 +14,6 @@ $wmi = Get-WmiObject -Class Win32_NetworkAdapter -filter "Name LIKE '%Wireless%'
 #dir to save log file
 $myDir = "C:\wifi_log.txt"
 
-#custom spacing for timestamps
-$space = "`t`t`t`t`t`t`t`t`t`t`t`t"
 
 Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t begining script, press Ctrl + C to quit..."
 
@@ -29,8 +27,10 @@ while ($wmi -ne $null){
  
 
     }elseif($wmi.NetConnectionStatus -eq 7){
-        Write-output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t adapter was disabled"
-        $wmi.Enable()
+        Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t adapter was disabled"
+        Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t adapter was disabled" | Out-File $myDir -NoClobber -Append  #write log to file
+        $wmi.Enable() | out-null   #re-enable adapter, but skip the cryptic output to screen it displays
+        Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t adapter was re-enabled"
 
     }else{
         #check if internet connection exists
@@ -39,7 +39,7 @@ while ($wmi -ne $null){
             #this may work with win 8 and above, but I have windows 7
             #Disable-NetAdapter -Name "eduroam" -Confirm:$false
 
-            Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t internet was down, resetting adapter" | Out-File $myDir -NoClobber -Append
+            Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t internet was down, resetting adapter" | Out-File $myDir -NoClobber -Append #write log to file
             Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t internet was down, resetting adapter"
            
             #this works with windows 7
