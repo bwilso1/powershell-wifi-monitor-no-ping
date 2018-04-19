@@ -24,13 +24,13 @@ while ($wmi -ne $null){
 
     if ($wmi.NetConnectionStatus -eq 1){
         Write-output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t adapter is connecting"
- 
 
     }elseif($wmi.NetConnectionStatus -eq 7){
         Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t adapter was disabled"
         Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t adapter was disabled" | Out-File $myDir -NoClobber -Append  #write log to file
         $wmi.Enable() | out-null   #re-enable adapter, but skip the cryptic output to screen it displays
-        Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t adapter was re-enabled"
+        Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t re-enabling adapter..."
+        Write-Output "$(Get-Date -Format '%M/d/yy HH:mm:ss')`t re-enabling adapter..." | Out-File $myDir -NoClobber -Append  #write log to file
 
     }else{
         #check if internet connection exists
